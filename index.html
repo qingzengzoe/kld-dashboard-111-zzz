@@ -1,0 +1,323 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;background:#F5F7FB;font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;color:#1B2333;padding:24px 28px 28px}
+.hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+h1{font-size:24px;letter-spacing:.3px}
+.sub{font-size:12px;color:#6B7688;margin-top:5px}
+.badge{font-size:11px;background:#FFF4E0;color:#9A6200;border:1px solid #FFE0A8;padding:3px 9px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.card{background:#fff;border:1px solid #E8ECF3;border-radius:12px;padding:15px 17px;box-shadow:0 1px 2px rgba(20,40,80,.04)}
+.row{display:flex;gap:14px;margin-bottom:13px}
+.h2{font-size:13px;font-weight:700}
+.h2s{font-size:11px;color:#8A94A6;margin:3px 0 10px}
+.filterbar{display:flex;align-items:center;gap:12px;padding:10px 15px;margin-bottom:13px}
+.flabel{font-size:11.5px;color:#4A5568;font-weight:700}
+.range{font-size:12px;font-weight:700;background:#F3F7FF;border:1px solid #D8E4FB;border-radius:7px;padding:5px 10px;color:#2F5CC0}
+.chips{display:flex;gap:5px}
+.chip{font-size:10.5px;padding:4px 9px;border-radius:14px;background:#F4F6FA;color:#5B6577;font-style:normal;cursor:pointer}
+.chip.on{background:#2F5CC0;color:#fff}
+select{font-size:12px;padding:5px 9px;border:1px solid #D8E4FB;border-radius:7px;background:#F3F7FF;color:#2F5CC0;font-weight:700;font-family:inherit}
+.ftip{font-size:10px;color:#98A2B3}
+.fdate{margin-left:auto;font-size:10px;color:#98A2B3}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:13px}
+.kpi .t{font-size:10.5px;color:#7A8699}
+.kpi .v{font-size:19px;font-weight:750;margin:3px 0 1px;white-space:nowrap}
+.kpi .v.dual{font-size:15.5px;letter-spacing:-.2px}
+.kpi .s{font-size:10px;color:#98A2B3}
+.mom{font-size:10px;font-weight:700;margin-left:4px}
+.up{color:#0F9D58}.down{color:#E5484D}.flat{color:#98A2B3}
+.goal{display:flex;gap:12px}
+.ginput{flex:1;border:1px solid #DCE3EF;border-radius:10px;padding:9px 12px;background:#FAFBFE}
+.ginput .l{font-size:10.5px;color:#7A8699}
+.ginput .v{font-size:18px;font-weight:700;margin-top:2px;border:none;background:transparent;width:100%;font-family:inherit;color:#1B2333;outline:none}
+.ginput .h{font-size:10px;color:#A0AABB;margin-top:2px}
+.prow{display:flex;align-items:center;gap:9px;margin:9px 0}
+.plab{width:84px;font-size:11.5px;color:#4A5568}
+.pbar{position:relative;flex:1;height:9px;background:#EDF1F8;border-radius:6px}
+.pfill{height:9px;border-radius:6px}
+.ptime{position:absolute;top:-5px;width:2px;height:19px;background:#1B2333;opacity:.8}
+.pnum{width:56px;text-align:right;font-size:12px;font-weight:700}
+.pgap{width:150px;text-align:right;font-size:10.5px;color:#8A94A6}
+.pnote{font-size:10px;color:#98A2B3;margin-top:6px;line-height:1.6}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#98A2B3;font-size:11.5px;gap:6px;padding:14px 0}
+.empty b{font-size:12.5px;color:#5B6577}
+.ax{font-size:9.5px;fill:#98A2B3}.lg{font-size:10px;fill:#8A94A6}
+.flab{font-size:11px;fill:#4A5568}.fval{font-size:11.5px;fill:#1B2333;font-weight:700}.fnote{font-size:9.5px;fill:#98A2B3}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{color:#7A8699;font-weight:600;padding:7px 8px;border-bottom:1px solid #E8ECF3;font-size:10.5px;text-align:right}
+td{padding:6px 8px;border-bottom:1px solid #F4F6FA;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+.cc{font-weight:700;font-size:11.5px}
+.numwrap{line-height:1.35}
+.numwrap .v{font-size:11.5px}
+.numwrap .m{font-size:9.5px}
+.ctab th:nth-child(n+2){text-align:right}
+.barcell{width:118px}
+.bwrap{width:110px;height:7px;background:#F2F5FA;border-radius:4px;margin-left:auto}
+.bfill{height:7px;border-radius:4px}
+.bfill.gmv{background:#BBD1F7}.bfill.cost{background:#5B8DEF}
+.stab th.gh{text-align:center;color:#2F5CC0;background:#F5F8FF;border-bottom:1px solid #DCE7FB}
+.stab th.gh2{text-align:center;color:#0F7A4A;background:#F3FBF6;border-bottom:1px solid #D6EFDF}
+.stab td.sep,.stab th.sep{border-left:1px solid #EDF1F8}
+.stab tr.tot td{background:#FAFBFE;font-weight:700;border-top:1px solid #E8ECF3}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid #F2F5FA}
+.mini .ml{display:block;font-size:10px;color:#8A94A6;margin-bottom:2px}
+.mini b{font-size:13.5px}.mini .ms{font-size:9.5px;color:#A0AABB}
+.legend{display:flex;gap:14px;font-size:10px;color:#8A94A6;margin-top:8px;align-items:center}
+.dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.foot{margin-top:12px;font-size:10px;color:#98A2B3;line-height:1.7}
+</style></head><body>
+<div class="hd">
+  <div>
+    <h1>Kalodata 广告看板 · 双月（2026/11/01 – 2026/12/31）<span class="badge">样式稿 · 示例数据</span></h1>
+    <div class="sub" id="hdsub"></div>
+  </div>
+  <div class="sub">更新频率：每日 09:00 自动刷新</div>
+</div>
+
+<div class="card filterbar">
+  <span class="flabel">国家</span>
+  <select id="ctysel"></select>
+  <span class="range">2026/11/01 → 2026/11/09</span>
+  <span class="ftip">环比 = 与上一等长周期对比</span>
+</div>
+
+<div class="row" id="goalrow"></div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="row">
+  <div class="card" style="flex:1.55">
+    <div class="h2">每日花费与 ROI <span id="trmom" class="h2s" style="display:inline"></span></div>
+    <div class="h2s">柱 = 花费；线 = GMV ÷ 花费（ROI）</div>
+    <div id="trend"></div>
+  </div>
+  <div class="card" style="flex:1">
+    <div class="h2">广告口径转化漏斗</div>
+    <div class="h2s">展示 → 点击 → 转化 → 首购 → 总订单</div>
+    <div id="funnel"></div>
+    <div class="mini" id="minis"></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card" style="flex:1">
+    <div class="h2">注册明细 · 菲律宾（2026/10）</div>
+    <div class="h2s">PH 总注册量 = 国家注册总数；Google 渠道 = register_tc_code 含 gaph 的注册数</div>
+    <div id="regdetail"></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card" style="flex:1">
+    <div class="h2">销售 · tc 双口径对比</div>
+    <div class="h2s">按「注册 tc」与「购买 tc」两种归因口径统计的首购与总销售，括号内为环比</div>
+    <div id="salestab"></div>
+    <div class="pnote">两种口径差异来自用户下单前切换过 tc（换市场、走代理、多账号）。注册 tc 反映"广告带来了谁"，购买 tc 反映"这笔钱最后算给谁"。</div>
+  </div>
+</div>
+
+<div class="foot">
+口径：① Impression / Click / Cost / Conversion 取 Google Ads 每日投放；② 首购、总订单按 tc 归因（最新回传覆盖，含退款冲减）；③ ROI = GMV ÷ 花费；④ 环比 = 本周期 ÷ 上一等长周期 − 1；⑤ 目标按国家维护，输入即自动保存；⑥ 国家归属按 campaign 命名规则。
+</div>
+
+<script>
+const DATA = {"rows": [{"code": "US", "cost": 9922, "gmv": 82166, "orders": 4533, "first": 1263, "reg_orders": 4012, "reg_gmv": 71814.8, "reg_first": 1111, "reg_first_gmv": 19109.2, "buy_first_gmv": 22355.1, "impr": 471295, "clicks": 86718, "conv": 1210, "cost_p": 9310, "gmv_p": 74210, "orders_p": 4150, "first_p": 1180, "reg_orders_p": 3673, "reg_first_p": 1038, "reg_gmv_p": 65738.94, "reg_first_gmv_p": 17860.48, "buy_first_gmv_p": 20886.0, "impr_p": 442225, "clicks_p": 80042, "conv_p": 1082, "roi_p": 7.97, "gmv_t": 820000, "roi_t": 7.5}, {"code": "TH", "cost": 4551, "gmv": 34980, "orders": 1920, "first": 534, "reg_orders": 1714, "reg_gmv": 30680.6, "reg_first": 470, "reg_first_gmv": 8084.0, "buy_first_gmv": 9451.8, "impr": 216172, "clicks": 39775, "conv": 555, "cost_p": 4180, "gmv_p": 31200, "orders_p": 1740, "first_p": 470, "reg_orders_p": 1554, "reg_first_p": 414, "reg_gmv_p": 27808.93, "reg_first_gmv_p": 7113.92, "buy_first_gmv_p": 8319.0, "impr_p": 198550, "clicks_p": 35937, "conv_p": 486, "roi_p": 7.46, "gmv_t": 330000, "roi_t": 8.5}, {"code": "BR", "cost": 2487, "gmv": 11840, "orders": 655, "first": 189, "reg_orders": 570, "reg_gmv": 10203.0, "reg_first": 166, "reg_first_gmv": 2855.2, "buy_first_gmv": 3345.3, "impr": 118132, "clicks": 21736, "conv": 303, "cost_p": 2410, "gmv_p": 10240, "orders_p": 590, "first_p": 170, "reg_orders_p": 513, "reg_first_p": 150, "reg_gmv_p": 9183.48, "reg_first_gmv_p": 2573.12, "buy_first_gmv_p": 3009.0, "impr_p": 114475, "clicks_p": 20719, "conv_p": 280, "roi_p": 4.25, "gmv_t": 120000, "roi_t": 4.5}, {"code": "MX", "cost": 1905, "gmv": 8320, "orders": 462, "first": 128, "reg_orders": 405, "reg_gmv": 7249.5, "reg_first": 113, "reg_first_gmv": 1943.6, "buy_first_gmv": 2265.6, "impr": 90487, "clicks": 16649, "conv": 232, "cost_p": 1830, "gmv_p": 7180, "orders_p": 420, "first_p": 118, "reg_orders_p": 368, "reg_first_p": 104, "reg_gmv_p": 6594.74, "reg_first_gmv_p": 1786.05, "buy_first_gmv_p": 2088.6, "impr_p": 86925, "clicks_p": 15733, "conv_p": 212, "roi_p": 3.92, "gmv_t": 85000, "roi_t": 5.0}, {"code": "UK", "cost": 1852, "gmv": 12760, "orders": 720, "first": 199, "reg_orders": 649, "reg_gmv": 11617.1, "reg_first": 175, "reg_first_gmv": 3010.0, "buy_first_gmv": 3522.3, "impr": 87970, "clicks": 16186, "conv": 225, "cost_p": 1790, "gmv_p": 11080, "orders_p": 660, "first_p": 182, "reg_orders_p": 595, "reg_first_p": 160, "reg_gmv_p": 10643.24, "reg_first_gmv_p": 2754.75, "buy_first_gmv_p": 3221.4, "impr_p": 85025, "clicks_p": 15389, "conv_p": 208, "roi_p": 6.19, "gmv_t": 130000, "roi_t": 7.0}, {"code": "FR", "cost": 1640, "gmv": 6320, "orders": 350, "first": 96, "reg_orders": 302, "reg_gmv": 5405.8, "reg_first": 84, "reg_first_gmv": 1444.8, "buy_first_gmv": 1699.2, "impr": 77900, "clicks": 14333, "conv": 200, "cost_p": 1580, "gmv_p": 5410, "orders_p": 320, "first_p": 88, "reg_orders_p": 276, "reg_first_p": 77, "reg_gmv_p": 4937.93, "reg_first_gmv_p": 1331.97, "buy_first_gmv_p": 1557.6, "impr_p": 75050, "clicks_p": 13584, "conv_p": 183, "roi_p": 3.42, "gmv_t": 70000, "roi_t": 4.0}, {"code": "AU", "cost": 1376, "gmv": 5980, "orders": 331, "first": 88, "reg_orders": 296, "reg_gmv": 5298.4, "reg_first": 77, "reg_first_gmv": 1324.4, "buy_first_gmv": 1557.6, "impr": 65360, "clicks": 12026, "conv": 167, "cost_p": 1330, "gmv_p": 5120, "orders_p": 300, "first_p": 80, "reg_orders_p": 268, "reg_first_p": 70, "reg_gmv_p": 4794.64, "reg_first_gmv_p": 1210.88, "buy_first_gmv_p": 1416.0, "impr_p": 63175, "clicks_p": 11434, "conv_p": 154, "roi_p": 3.85, "gmv_t": 65000, "roi_t": 4.2}, {"code": "DE", "cost": 1349, "gmv": 6980, "orders": 387, "first": 104, "reg_orders": 342, "reg_gmv": 6121.8, "reg_first": 92, "reg_first_gmv": 1582.4, "buy_first_gmv": 1840.8, "impr": 64077, "clicks": 11790, "conv": 164, "cost_p": 1300, "gmv_p": 6020, "orders_p": 350, "first_p": 95, "reg_orders_p": 310, "reg_first_p": 84, "reg_gmv_p": 5544.25, "reg_first_gmv_p": 1437.92, "buy_first_gmv_p": 1681.5, "impr_p": 61750, "clicks_p": 11176, "conv_p": 151, "roi_p": 4.63, "gmv_t": 75000, "roi_t": 5.2}, {"code": "ES", "cost": 1085, "gmv": 3420, "orders": 189, "first": 52, "reg_orders": 162, "reg_gmv": 2899.8, "reg_first": 46, "reg_first_gmv": 791.2, "buy_first_gmv": 920.4, "impr": 51537, "clicks": 9482, "conv": 132, "cost_p": 1040, "gmv_p": 3010, "orders_p": 175, "first_p": 48, "reg_orders_p": 150, "reg_first_p": 42, "reg_gmv_p": 2677.35, "reg_first_gmv_p": 726.53, "buy_first_gmv_p": 849.6, "impr_p": 49400, "clicks_p": 8941, "conv_p": 120, "roi_p": 2.89, "gmv_t": 45000, "roi_t": 3.8}, {"code": "PH", "cost": 820, "gmv": 2440, "orders": 135, "first": 38, "reg_orders": 118, "reg_gmv": 2112.2, "reg_first": 33, "reg_first_gmv": 567.6, "buy_first_gmv": 672.6, "impr": 38950, "clicks": 7166, "conv": 100, "cost_p": 790, "gmv_p": 2110, "orders_p": 122, "first_p": 34, "reg_orders_p": 107, "reg_first_p": 30, "reg_gmv_p": 1915.61, "reg_first_gmv_p": 514.62, "buy_first_gmv_p": 601.8, "impr_p": 37525, "clicks_p": 6792, "conv_p": 91, "roi_p": 2.67, "gmv_t": 55000, "roi_t": 4.5}], "daily": [{"day": "11/01", "cost": 2895.53, "gmv": 20383.57}, {"day": "11/02", "cost": 3410.68, "gmv": 23528.46}, {"day": "11/03", "cost": 3121.07, "gmv": 22100.57}, {"day": "11/04", "cost": 2898.97, "gmv": 20199.64}, {"day": "11/05", "cost": 3418.19, "gmv": 25258.63}, {"day": "11/06", "cost": 2966.79, "gmv": 19744.32}, {"day": "11/07", "cost": 3040.6, "gmv": 22544.42}, {"day": "11/08", "cost": 3760.64, "gmv": 23552.22}, {"day": "11/09", "cost": 4169.42, "gmv": 31884.1}], "daysTotal": 61, "n": 9, "period": ["2026/11/01", "2026/12/31"], "today": "2026/11/09"};
+const INIT = "ALL";
+const fmtM = v => v>=1000 ? "$"+Math.round(v).toLocaleString() : "$"+v.toFixed(2);
+const fmtN = v => Math.round(v).toLocaleString();
+const fmtP = v => (v*100).toFixed(2)+"%";
+const mom = (cur,prev) => prev ? (cur/prev-1) : 0;
+const momHtml = (cur,prev,invert=false) => {
+  const m = mom(cur,prev);
+  if (!isFinite(m) || !prev) return '<span class="mom flat">—</span>';
+  const good = invert ? m<0 : m>0;
+  const cls = Math.abs(m)<0.0005 ? 'flat' : (good?'up':'down');
+  return `<span class="mom ${cls}">${m>=0?'+':''}${(m*100).toFixed(1)}%</span>`;
+};
+
+const sel = document.getElementById('ctysel');
+sel.innerHTML = '<option value="ALL">全部国家</option>' + DATA.rows.map(r=>`<option value="${r.code}">${r.code}</option>`).join('');
+sel.value = INIT;
+sel.onchange = () => render(sel.value);
+
+function subset(code){ return code==='ALL' ? DATA.rows : DATA.rows.filter(r=>r.code===code); }
+function agg(rows, keys){
+  const o={}; keys.forEach(k=>o[k]=rows.reduce((s,r)=>s+(r[k]||0),0)); return o;
+}
+
+function render(code){
+  const rows = subset(code);
+  const isAll = code==='ALL';
+  const keys = ['cost','gmv','orders','first','reg_orders','reg_gmv','reg_first','reg_first_gmv','buy_first_gmv',
+                'impr','clicks','conv','cost_p','gmv_p','orders_p','first_p','reg_orders_p','reg_gmv_p',
+                'reg_first_p','reg_first_gmv_p','buy_first_gmv_p','impr_p','clicks_p','conv_p'];
+  const t = agg(rows, keys);
+  const ROI = t.gmv/t.cost, ROI_p = t.gmv_p/t.cost_p;
+  const CTR = t.clicks/t.impr, CTR_p = t.clicks_p/t.impr_p;
+  const CPA = t.cost/t.conv, CPA_p = t.cost_p/t.conv_p;
+
+  document.getElementById('hdsub').innerHTML =
+    `数据截至 ${DATA.today} ｜ 第 ${DATA.n}/${DATA.daysTotal} 天（时间进度 ${(DATA.n/DATA.daysTotal*100).toFixed(1)}%）｜ 当前视图：${isAll?'全部国家':code}`;
+
+  // ---- 目标区 ----
+  const goalrow = document.getElementById('goalrow');
+  if (isAll){
+    goalrow.innerHTML = `<div class="card" style="flex:1;display:flex;align-items:center;gap:14px;padding:13px 18px">
+      <span class="h2">双月目标</span><span style="font-size:10.5px;color:#8A94A6">目标按国家维护</span>
+      <span style="margin-left:auto;font-size:11px;color:#7A8699">当前为「全部国家」视图，不显示目标进度；在上方选择单个国家后，显示该国 GMV / ROI 目标与达成</span></div>`;
+  } else {
+    const r = rows[0];
+    const gRate = r.gmv / r.gmv_t, roiRate = (r.gmv / r.cost) / r.roi_t;
+    goalrow.innerHTML = `<div class="card" style="flex:1"><div class="h2">${code} · 双月目标</div><div class="h2s">输入即自动保存，下次沿用；手动改才变</div>
+      <div class="goal">
+        <div class="ginput"><div class="l">双月 GMV 目标</div>
+          <input class="v" id="tg" value="${r.gmv_t.toLocaleString()}" data-code="${code}" data-k="gmv_t">
+          <div class="h">✓ 已保存 · 当前 ${code} 累计 ${fmtM(r.gmv)}</div></div>
+        <div class="ginput"><div class="l">双月总订单 ROI 目标</div>
+          <input class="v" id="tr" value="${r.roi_t}" data-code="${code}" data-k="roi_t">
+          <div class="h">✓ 已保存 · 当前 ${code} ROI ${(r.gmv/r.cost).toFixed(2)}x</div></div>
+      </div>`;
+    goalrow.innerHTML += `</div><div class="card" style="flex:1.15"><div class="h2">${code} · 达成进度</div><div class="h2s">黑线 = 时间进度 ${(DATA.n/DATA.daysTotal*100).toFixed(1)}%（仅 GMV 适用）</div>
+      <div class="prow"><div class="plab">GMV 达成</div>
+        <div class="pbar"><div class="pfill" style="width:${Math.min(gRate*100,100).toFixed(1)}%;background:#0F9D58"></div>
+        <div class="ptime" style="left:${(DATA.n/DATA.daysTotal*100).toFixed(1)}%"></div></div>
+        <div class="pnum">${(gRate*100).toFixed(1)}%</div><div class="pgap">${fmtM(r.gmv)} / ${fmtM(r.gmv_t)}</div></div>
+      <div class="prow"><div class="plab">ROI 达成</div>
+        <div class="pbar"><div class="pfill" style="width:${Math.min(roiRate*100,100).toFixed(1)}%;background:${roiRate>=1?'#0F9D58':'#E5484D'}"></div></div>
+        <div class="pnum">${(roiRate*100).toFixed(1)}%</div><div class="pgap">${(r.gmv/r.cost).toFixed(2)}x / 目标 ${r.roi_t.toFixed(2)}x</div></div>
+      <div class="pnote">ROI 为水平型指标：进度 = 实际 ROI ÷ 目标 ROI，不画时间基准线。</div></div>`;
+    goalrow.querySelectorAll('input').forEach(inp=>{
+      inp.onchange = () => {
+        const k = inp.dataset.k, v = parseFloat(inp.value.replace(/[^0-9.]/g,''))||0;
+        inp.value = (k==="gmv_t" ? v.toLocaleString() : v);
+        localStorage.setItem('tgt_'+inp.dataset.code+'_'+k, v);
+        inp.nextElementSibling.textContent = '✓ 已保存';
+      };
+      const saved = localStorage.getItem('tgt_'+inp.dataset.code+'_'+inp.dataset.k);
+      if (saved) inp.value = saved;
+    });
+  }
+
+  // ---- KPI ----
+  const CPC_raw = t.cost/t.clicks;
+  const conv_val_total = t.conv_value || (t.conv * (t.gmv/t.orders) * 0.45);
+  const first_roi = t.buy_first_gmv/t.cost;
+  const kpis = [
+    ['花费 Cost', fmtM(t.cost), `日均 ${fmtM(t.cost/DATA.n)}`, momHtml(t.cost,t.cost_p)],
+    ['点击 / CPC', `${fmtN(t.clicks)} / ${fmtM(CPC_raw)}`, `CTR ${fmtP(CTR)}`, momHtml(t.clicks,t.clicks_p)],
+    ['广告转化 / 转化价值', `${fmtN(t.conv)} / ${fmtM(conv_val_total)}`, `CPA ${fmtM(CPA)}`, momHtml(t.conv,t.conv_p)],
+    ['首购订单 / 首购金额', `${fmtN(t.first)} / ${fmtM(t.buy_first_gmv)}`, `首购客单 ${fmtM(t.buy_first_gmv/t.first)}`, momHtml(t.buy_first_gmv,t.buy_first_gmv_p)],
+    ['总订单 / GMV', `${fmtN(t.orders)} / ${fmtM(t.gmv)}`, `AOV ${fmtM(t.gmv/t.orders)}`, momHtml(t.gmv,t.gmv_p)],
+    ['首购ROI / 总ROI', `${first_roi.toFixed(2)}x / ${ROI.toFixed(2)}x`, isAll? '全部国家合计' : `目标 ${rows[0].roi_t.toFixed(1)}x`, momHtml(ROI,ROI_p)],
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(([a,b,c,d])=>
+    `<div class="card kpi"><div class="t">${a}</div><div class="v${b.includes(' / ')?' dual':''}">${b}${d}</div><div class="s">${c}</div></div>`).join('');
+
+  // ---- 趋势 ----
+  const share = isAll ? 1 : rows[0].gmv / DATA.rows.reduce((s,r)=>s+r.gmv,0);
+  
+  
+  const dl = DATA.daily.map(x=>({day:x.day, cost:x.cost*share, gmv:x.gmv*share}));
+  document.getElementById('trmom').innerHTML = '· 花费 ' + momHtml(t.cost,t.cost_p) + ' ROI ' + momHtml(ROI,ROI_p);
+  document.getElementById('trend').innerHTML = trendSVG(dl);
+
+  // ---- 漏斗 ----
+  document.getElementById('funnel').innerHTML = funnelSVG(t);
+  document.getElementById('minis').innerHTML = `
+    <div><span class="ml">花费 / CPA</span><b>${fmtM(t.cost)}</b> <span class="ms">${fmtM(CPA)}/转化</span></div>
+    <div><span class="ml">点击→转化率</span><b>${(t.conv/t.clicks*100).toFixed(2)}%</b> <span class="ms">环比 ${(mom(CTR,CTR_p)*100).toFixed(1)}%</span></div>
+    <div><span class="ml">首购占比 / 复购倍数</span><b>${(t.first/t.orders*100).toFixed(1)}%</b> <span class="ms">${(t.orders/t.first).toFixed(2)}x</span></div>`;
+
+  // ---- 注册明细 ----
+  const regItems = [
+    {label: '🇵🇭 PH 总注册 (2026/10)', count: PH_REG.total, color: '#5B8DEF', total: PH_REG.total},
+    {label: '📢 合计: Google Ads 渠道', count: PH_REG.gaph, color: '#4C7BE8', total: PH_REG.total},
+  ];
+  PH_REG.gaph_breakdown.forEach(([code, n]) => {
+    regItems.push({label: '   ├ ' + code, count: n, color: '#8DB5F5', total: PH_REG.total});
+  });
+  regItems.push({label: '🔗 合计: 其他 tc 渠道', count: PH_REG.total - PH_REG.gaph - PH_REG.non_ad, color: '#6C8EBF', total: PH_REG.total});
+  PH_REG.others.forEach(([code, n]) => {
+    regItems.push({label: '   ├ ' + code, count: n, color: '#9BB5DE', total: PH_REG.total});
+  });
+  regItems.push({label: '↪ 无广告码 (自然/非GA注册)', count: PH_REG.non_ad, color: '#BCCFE8', total: PH_REG.total});
+  
+  let regHTML = '';
+  regItems.forEach(({label, count, color, total}) => {
+    const pct = (count/total*100).toFixed(1);
+    const barW = Math.max(pct, 1.5);
+    regHTML += `<div class="regbar">
+      <div class="reglabel">${label}</div>
+      <div class="regtrack"><div class="regfill" style="width:${barW}%;background:${color}"></div></div>
+      <div class="regnum">${count.toLocaleString()}</div>
+      <div class="regpct">${pct}%</div>
+    </div>`;
+  });
+  regHTML += '<div class="pnote">数据来源：ads_user_info_df，country=philippines，2026/10/01-10/31；Google Ads 渠道 = kdgaphbrand/kdgaphcp/kdgaphfuc；gadscn/badscn 等其他 tc 码为跨市场/代理溢出。</div>';
+  document.getElementById('regdetail').innerHTML = regHTML;
+
+  // ---- 销售双口径 ----// ---- 销售双口径 ----
+  const cell=(cur,prev)=>`<td class="numwrap"><div class="v">${cur}</div><div class="m">${momHtml(0,0) && ''}${''}</div></td>`;
+  const nc=(cur,prev)=>{ const m=mom(cur,prev); const cls=Math.abs(m)<0.0005?'flat':(m>0?'up':'down');
+    return `<div class="m"><span class="${cls}">${m>=0?'+':''}${(m*100).toFixed(1)}%</span></div>`; };
+  const srow=(r)=>`<tr${!isAll?' style="background:#F7FAFF"':''}><td class="cc">${r.code}</td>
+    <td class="numwrap"><div class="v">${fmtN(r.reg_first)}</div>${nc(r.reg_first,r.reg_first_p)}</td>
+    <td class="numwrap"><div class="v">${fmtM(r.reg_first_gmv)}</div>${nc(r.reg_first_gmv,r.reg_first_gmv_p)}</td>
+    <td class="numwrap"><div class="v">${fmtN(r.reg_orders)}</div>${nc(r.reg_orders,r.reg_orders_p)}</td>
+    <td class="numwrap"><div class="v">${fmtM(r.reg_gmv)}</div>${nc(r.reg_gmv,r.reg_gmv_p)}</td>
+    <td class="numwrap sep"><div class="v">${fmtN(r.first)}</div>${nc(r.first,r.first_p)}</td>
+    <td class="numwrap"><div class="v">${fmtM(r.buy_first_gmv)}</div>${nc(r.buy_first_gmv,r.buy_first_gmv_p)}</td>
+    <td class="numwrap"><div class="v">${fmtN(r.orders)}</div>${nc(r.orders,r.orders_p)}</td>
+    <td class="numwrap"><div class="v">${fmtM(r.gmv)}</div>${nc(r.gmv,r.gmv_p)}</td></tr>`;
+  document.getElementById('salestab').innerHTML = `<table class="stab"><thead>
+    <tr><th rowspan="2">国家</th><th colspan="4" class="gh">按注册 tc 统计</th><th colspan="4" class="gh2">按购买 tc 统计</th></tr>
+    <tr><th>首购单</th><th>首购金额</th><th>总订单</th><th>总销售额</th><th class="sep">首购单</th><th>首购金额</th><th>总订单</th><th>总销售额</th></tr></thead>
+    <tbody>${rows.map(srow).join('')}
+    ${isAll?`<tr class="tot"><td class="cc">合计</td>
+      <td class="numwrap"><div class="v">${fmtN(t.reg_first)}</div>${nc(t.reg_first,t.reg_first_p)}</td>
+      <td class="numwrap"><div class="v">${fmtM(t.reg_first_gmv)}</div>${nc(t.reg_first_gmv,t.reg_first_gmv_p)}</td>
+      <td class="numwrap"><div class="v">${fmtN(t.reg_orders)}</div>${nc(t.reg_orders,t.reg_orders_p)}</td>
+      <td class="numwrap"><div class="v">${fmtM(t.reg_gmv)}</div>${nc(t.reg_gmv,t.reg_gmv_p)}</td>
+      <td class="sep numwrap"><div class="v">${fmtN(t.first)}</div>${nc(t.first,t.first_p)}</td>
+      <td class="numwrap"><div class="v">${fmtM(t.buy_first_gmv)}</div>${nc(t.buy_first_gmv,t.buy_first_gmv_p)}</td>
+      <td class="numwrap"><div class="v">${fmtN(t.orders)}</div>${nc(t.orders,t.orders_p)}</td>
+      <td class="numwrap"><div class="v">${fmtM(t.gmv)}</div>${nc(t.gmv,t.gmv_p)}</td></tr>`:''}</tbody></table>`;
+}
+
+function trendSVG(dl){
+  const w=880,h=248,pl=58,pr=52,pt=20,pb=26, iw=w-pl-pr, ih=h-pt-pb;
+  const maxc=Math.max(...dl.map(d=>d.cost))*1.15;
+  const rois=dl.map(d=>d.gmv/d.cost), maxr=Math.max(...rois)*1.08, minr=Math.min(...rois)*0.9;
+  const step=iw/dl.length, bw=step*0.52;
+  let g='',bars='',pts=[],labels='';
+  for(let k=0;k<5;k++){ const y=pt+ih*k/4;
+    g+=`<line x1="${pl}" y1="${y}" x2="${w-pr}" y2="${y}" stroke="#EEF1F6"/>`;
+    g+=`<text x="${pl-8}" y="${y+4}" text-anchor="end" class="ax">$${Math.round(maxc*(1-k/4)).toLocaleString()}</text>`;
+    g+=`<text x="${w-pr+8}" y="${y+4}" class="ax" fill="#E5484D">${(maxr-(maxr-minr)*k/4).toFixed(1)}x</text>`; }
+  dl.forEach((d,i)=>{ const x=pl+step*(i+0.5), bh=ih*d.cost/maxc;
+    bars+=`<rect x="${x-bw/2}" y="${pt+ih-bh}" width="${bw}" height="${bh}" rx="2" fill="url(#gb)"/>`;
+    const ry=pt+ih-ih*((d.gmv/d.cost-minr)/(maxr-minr)); pts.push(`${x.toFixed(1)},${ry.toFixed(1)}`);
+    labels+=`<text x="${x}" y="${h-8}" text-anchor="middle" class="ax">${d.day}</text>`; });
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5B8DEF"/><stop offset="1" stop-color="#B9CFFB"/></linearGradient></defs>
+    ${g}${bars}<polyline points="${pts.join(' ')}" fill="none" stroke="#E5484D" stroke-width="2.2"/>
+    ${pts.map(p=>`<circle cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="3" fill="#fff" stroke="#E5484D" stroke-width="2"/>`).join('')}
+    ${labels}<text x="${pl}" y="12" class="lg">花费（柱，左轴）</text><text x="${w-pr}" y="12" text-anchor="end" class="lg" fill="#E5484D">ROI（线，右轴）</text></svg>`;
+}
+
+function funnelSVG(t){
+  const steps=[['Impressions',t.impr,'#5B8DEF',''],['Clicks',t.clicks,'#4C7BE8',`CTR ${(t.clicks/t.impr*100).toFixed(2)}%`],
+    ['Conversions',t.conv,'#3E6BD4',`点击→转化 ${(t.conv/t.clicks*100).toFixed(2)}%`],
+    ['首购订单',t.first,'#2F5CC0',`转化→首购 ${(t.first/t.conv*100).toFixed(1)}%`],
+    ['总订单',t.orders,'#24499F',`首购→总单 ${(t.orders/t.first).toFixed(2)}x`]];
+  const top=t.impr; let out='';
+  steps.forEach(([n,v,c,note],i)=>{ const y=16+i*50, w=Math.max(320*Math.pow(v/top,0.42),78);
+    out+=`<rect x="120" y="${y}" width="${w}" height="26" rx="5" fill="${c}"/>`;
+    out+=`<text x="112" y="${y+18}" text-anchor="end" class="flab">${n}</text>`;
+    out+=`<text x="600" y="${y+18}" text-anchor="end" class="fval">${fmtN(v)}</text>`;
+    if(note) out+=`<text x="600" y="${y+32}" text-anchor="end" class="fnote">${note}</text>`; });
+  return `<svg viewBox="0 0 610 270" width="100%" height="270">${out}</svg>`;
+}
+
+render(INIT);
+</script></body></html>
