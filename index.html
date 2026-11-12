@@ -5,37 +5,10 @@ h2{font-size:22px;margin-bottom:8px} p{font-size:13px;color:#98A2B3;margin-botto
 input{border:none;border-radius:10px;padding:12px 16px;font-size:16px;width:260px;outline:none;text-align:center}
 .err{font-size:12px;color:#E5484D;margin-top:10px;display:none}
 
-.pw-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#1B2333;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Noto Sans CJK SC","PingFang SC",sans-serif}
-.pw-box{background:#fff;border-radius:16px;padding:40px 48px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.3)}
-.pw-box h2{font-size:22px;color:#1B2333;margin-bottom:8px}
-.pw-box p{font-size:13px;color:#7A8699;margin-bottom:24px}
-.pw-box input{border:2px solid #DCE3EF;border-radius:10px;padding:12px 16px;font-size:16px;width:260px;outline:none;text-align:center;font-family:inherit}
-.pw-box input:focus{border-color:#5B8DEF}
-.pw-err{font-size:12px;color:#E5484D;margin-top:10px;display:none}
-
 </style></head><body>
 
-<div class="pw-overlay" id="pwgate">
-  <div class="pw-box">
-    <h2>Kalodata 广告看板</h2>
-    <p>输入密码查看</p>
-    <input type="password" id="pwinp" placeholder="请输入密码" autofocus>
-    <div class="pw-err" id="pwerr">密码错误</div>
   </div>
 </div>
-
-
-<script>
-var PW_HASH = "26979624ac0b501a345098cc690453fd3b9e0af4d770ee757330394861fbed51";
-document.getElementById('pwinp').addEventListener('keydown', async function(e){
-  if(e.key !== 'Enter') return;
-  var input = e.target.value;
-  var hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
-  var hex = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
-  if(hex === PW_HASH){ document.getElementById('pwgate').style.display = 'none'; }
-  else{ document.getElementById('pwerr').style.display = 'block'; e.target.value = ''; }
-});
-</script>
 
 <h2>Kalodata 广告看板</h2><p>输入密码查看数据</p>
 <input type="password" id="pi" placeholder="请输入密码" autofocus><div class="err" id="pe">密码错误</div>
